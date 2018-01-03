@@ -38,7 +38,7 @@ if [ -n "${CUDA_TOOLKIT_PATH}" ]; then
     export TF_CUDA_VERSION="$($CUDA_TOOLKIT_PATH/bin/nvcc --version | sed -n 's/^.*release \(.*\),.*/\1/p')"
     export TF_CUDNN_VERSION="$(sed -n 's/^#define CUDNN_MAJOR\s*\(.*\).*/\1/p' $CUDNN_INSTALL_PATH/include/cudnn.h)"
     # use gcc-5 for now, clang in the future
-    export GCC_HOST_COMPILER_PATH=/usr/bin/gcc-6
+    export GCC_HOST_COMPILER_PATH=/usr/bin/gcc-5
     export CLANG_CUDA_COMPILER_PATH=/usr/bin/clang
     export TF_CUDA_CLANG=0
 else
@@ -49,5 +49,5 @@ fi
 
 # configure and build
 ./configure
-bazel build -c opt $cuda_config_opts --copt=${CC_OPT_FLAGS} tensorflow:libtensorflow_cc.so
+bazel build --config=monolithic -c opt $cuda_config_opts --copt=${CC_OPT_FLAGS} tensorflow:libtensorflow_cc.so
 bazel shutdown
