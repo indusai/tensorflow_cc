@@ -8,6 +8,7 @@ project(
 # Use the following option to build a shared library with GPU support.
 # If enabled, bazel has to be installed.
 option(TENSORFLOW_SHARED "Build shared library (required for GPU support)." OFF)
+option(TENSORFLOW_SHARED_CPU "Build CPU-only shared library." OFF)
 option(TENSORFLOW_STATIC "Build static library." ON)
 
 # -------------
@@ -27,6 +28,8 @@ set(CMAKECFG_INSTALL_DIR lib/cmake/TensorflowCC)
 include(TensorflowBase)
 if(TENSORFLOW_SHARED)
   include(TensorflowShared)
+elseif(TENSORFLOW_SHARED_CPU)
+  include(TensorflowSharedCpu)
 endif()
 if(TENSORFLOW_STATIC)
   include(TensorflowStatic)
